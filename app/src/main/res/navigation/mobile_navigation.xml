@@ -7,23 +7,23 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="ru.bingosoft.teploInspector.ui.order.OrderFragment"
+        android:name="ru.bingosoft.taxInspector.ui.order.OrderFragment"
         tools:layout="@layout/fragment_order" >
     </fragment>
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="ru.bingosoft.teploInspector.ui.checkuplist.CheckupListFragment"
+        android:name="ru.bingosoft.taxInspector.ui.checkuplist.CheckupListFragment"
         tools:layout="@layout/fragment_checkuplist" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="ru.bingosoft.teploInspector.ui.map.MapFragment"
+        android:name="ru.bingosoft.taxInspector.ui.map.MapFragment"
         tools:layout="@layout/fragment_map" />
 
     <fragment
         android:id="@+id/nav_checkup"
-        android:name="ru.bingosoft.teploInspector.ui.checkup.CheckupFragment"
+        android:name="ru.bingosoft.taxInspector.ui.checkup.CheckupFragment"
         tools:layout="@layout/fragment_gallery" />
 
 

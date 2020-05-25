@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "106467493834",
-    "firebase_url": "https://teploinspector-ecbcf.firebaseio.com",
-    "project_id": "teploinspector-ecbcf",
-    "storage_bucket": "teploinspector-ecbcf.appspot.com"
+    "project_number": "1016197305759",
+    "firebase_url": "https://taxinspector-d9884.firebaseio.com",
+    "project_id": "taxinspector-d9884",
+    "storage_bucket": "taxinspector-d9884.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:106467493834:android:2851f5b30aeda709a7f133",
+        "mobilesdk_app_id": "1:1016197305759:android:e24cee553040740ec719aa",
         "android_client_info": {
-          "package_name": "ru.bingosoft.teploInspector"
+          "package_name": "ru.bingosoft.taxInspector"
         }
       },
       "oauth_client": [
         {
-          "client_id": "106467493834-vq0s4kkgg9f9oa4fnkijioaonuiup634.apps.googleusercontent.com",
+          "client_id": "1016197305759-vc28ndtmtu82mifuspburjh9cprglgoh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA8HaSEBqsSMlDjnRAeujVW6T1qQoQ4wR4"
+          "current_key": "AIzaSyCRoof4-NbC-v01Ao-2QAuZhXgJR1bmepY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "106467493834-vq0s4kkgg9f9oa4fnkijioaonuiup634.apps.googleusercontent.com",
+              "client_id": "1016197305759-vc28ndtmtu82mifuspburjh9cprglgoh.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
