@@ -16,6 +16,18 @@ class OtherUtil {
         val list= mutableListOf<String>()
         checkups.forEach { it ->
             val controlList = Gson().fromJson(it.textResult, Models.ControlList::class.java)
+            val groupControl=controlList.list.filter { it.type=="group_questions" }
+            groupControl.forEach {
+                val commonControlList = Gson().fromJson(it.resvalue, Models.CommonControlList::class.java)
+                commonControlList.list.forEach{
+                    val controlPhoto2=it.list.filter {it.type=="photo"}
+                    controlPhoto2.forEach{
+                        Timber.d("${it.resvalue}")
+                        list.add(it.resvalue)
+                    }
+                }
+
+            }
             val controlPhoto=controlList.list.filter { it.type=="photo" }
             controlPhoto.forEach{
                 //val photoResult= Gson().fromJson(it.resvalue, Models.PhotoResult::class.java)

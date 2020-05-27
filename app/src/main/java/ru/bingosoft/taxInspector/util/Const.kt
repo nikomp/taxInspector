@@ -1,5 +1,6 @@
 package ru.bingosoft.taxInspector.util
 
+import android.os.Environment
 import com.yandex.mapkit.geometry.Point
 
 class Const {
@@ -49,6 +50,10 @@ class Const {
         const val MINIMAL_DISTANCE=50.0
         const val USE_IN_BACKGROUND=false
 
+    }
+
+    object Photo{
+        val DCIM_DIR= "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)}"
     }
 
 }

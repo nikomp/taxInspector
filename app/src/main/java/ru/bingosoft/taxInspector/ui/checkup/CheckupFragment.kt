@@ -28,7 +28,6 @@ import ru.bingosoft.taxInspector.util.*
 import ru.bingosoft.taxInspector.util.photoSliderHelper.GalleryPagerAdapter
 import ru.bingosoft.taxInspector.util.photoSliderHelper.HorizontalAdapter
 import timber.log.Timber
-import java.io.File
 import javax.inject.Inject
 
 
@@ -124,6 +123,11 @@ class CheckupFragment : Fragment(), CheckupContractView, View.OnClickListener {
         toaster.showToast(resID)
     }
 
+    override fun unlockBtnSend() {
+        val btnSend=root.findViewById<MaterialButton>(R.id.mbSendCheckup)
+        btnSend.isEnabled=true
+    }
+
     override fun onClick(v: View?) {
         if (v != null) {
             when (v.id) {
@@ -133,7 +137,8 @@ class CheckupFragment : Fragment(), CheckupContractView, View.OnClickListener {
                 }
                 R.id.mbSendCheckup -> {
                     Timber.d("Отправляем данные на сервер")
-                    (this.requireActivity() as MainActivity).mainPresenter.sendData()
+                    (this.requireActivity() as MainActivity).mainPresenter.sendData(checkupPresenter)
+                    v.isEnabled=false
                 }
             }
         }
@@ -196,23 +201,21 @@ class CheckupFragment : Fragment(), CheckupContractView, View.OnClickListener {
 
     }
 
-    fun setPhotoResult(controlId: Int?, photoDir: String) {
+    fun setPhotoResult(controlId: Int?, photoDir: String, v: View?=null) {
         Timber.d("setPhotoResult from fragment $controlId")
         if (controlId!=null) {
-            val linearLayout=root.findViewById<LinearLayout>(controlId)
-            //linearLayout.findViewById<TextView>(R.id.photoResult).text=this.getString(R.string.photoResult,photoDir)
+            val linearLayout=
+            if (v==null) {
+                root.findViewById<LinearLayout>(controlId)
+            } else {
+                (v as LinearLayout)
+            }
+
             // Обновим список с фото
-            val stDir = "PhotoForApp/$photoDir"
-            val storageDir =
-                File(
-                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
-                    stDir
-                )
-
-            Timber.d("$storageDir")
-
-            val images = OtherUtil().getFilesFromDir("$storageDir")
+            val images = OtherUtil().getFilesFromDir("${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)}/PhotoForApp/$photoDir")
+            Timber.d("images=$images")
             refreshPhotoViewer(linearLayout, images, root.context)
+
         }
     }
 

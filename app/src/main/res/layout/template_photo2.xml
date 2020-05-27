@@ -75,7 +75,7 @@
 
 
                 <ImageButton
-                    android:id="@+id/left_nav"
+                    android:id="@+id/left_nav_photo"
                     android:layout_width="30dp"
                     android:layout_height="50dp"
                     android:layout_alignParentStart="true"
@@ -87,10 +87,10 @@
                     app:srcCompat="@drawable/arrow_right" />
 
                 <ImageButton
-                    android:id="@+id/right_nav"
+                    android:id="@+id/right_nav_photo"
                     android:layout_width="30dp"
                     android:layout_height="50dp"
-                    android:layout_alignTop="@+id/left_nav"
+                    android:layout_alignTop="@+id/left_nav_photo"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
@@ -146,30 +146,31 @@
                     android:id="@+id/btnPhoto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
                     android:background="@color/buttonBackgroundLight"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/btnAddPhoto"
                     android:textColor="@color/hypertext"
-                    android:textSize="12sp"
+                    android:textSize="10sp"
                     app:backgroundTint="@color/buttonBackgroundLight"
                     app:cornerRadius="22dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btnPhotoDeleteAll"
+                    app:layout_constraintEnd_toStartOf="@+id/btnDeletePhoto"
+                    app:layout_constraintStart_toEndOf="@+id/photoCount"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnPhotoDeleteAll"
+                    android:id="@+id/btnDeletePhoto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:background="@color/buttonBackgroundLight"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="@string/btnDeleteAllPhoto"
-                    android:textColor="@color/inactive_text"
-                    android:textSize="12sp"
-                    android:visibility="invisible"
+                    android:text="@string/btnDeletePhoto"
+                    android:textColor="@color/hypertext"
+                    android:textSize="10sp"
+                    android:visibility="visible"
                     app:backgroundTint="@color/buttonBackgroundLight"
                     app:cornerRadius="22dp"
                     app:layout_constraintBottom_toBottomOf="parent"

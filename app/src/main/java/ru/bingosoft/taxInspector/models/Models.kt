@@ -70,6 +70,7 @@ class Models {
         @Expose @SerializedName("question") var question: String="",
         @Expose @SerializedName("hint") var hint: String="",
         @Expose @SerializedName("resvalue") var resvalue: String="",
+        @Expose @SerializedName("ressubvalue") var resmainvalue: String="",
         @Expose @SerializedName("subcheckup") var subcheckup: List<Checkup> = listOf(),
         @Expose @SerializedName("multiplicity") var multiplicity: Int=0,
 
@@ -80,8 +81,8 @@ class Models {
     )
 
     class Subvalue(
-        @SerializedName("idlink") var id: Int = 0,
-        @SerializedName("value") var value: Array<String> = arrayOf()
+        @Expose @SerializedName("idlink") var id: Int = 0,
+        @Expose @SerializedName("value") var value: Array<String> = arrayOf()
     )
 
     /*class PhotoResult(

@@ -16,6 +16,7 @@ import ru.bingosoft.taxInspector.api.ApiService
 import ru.bingosoft.taxInspector.db.AppDatabase
 import ru.bingosoft.taxInspector.db.Checkup.Checkup
 import ru.bingosoft.taxInspector.ui.checkup.CheckupFragment
+import ru.bingosoft.taxInspector.ui.checkup.CheckupPresenter
 import ru.bingosoft.taxInspector.util.OtherUtil
 import ru.bingosoft.taxInspector.util.PhotoHelper
 import ru.bingosoft.taxInspector.util.ThrowHelper
@@ -85,7 +86,7 @@ class MainActivityPresenter @Inject constructor(val db: AppDatabase, private val
             }
     }
 
-    fun sendData() {
+    fun sendData(presenter: CheckupPresenter?=null) {
         Timber.d("sendData")
         disposable =
             db.checkupDao()
@@ -113,6 +114,8 @@ class MainActivityPresenter @Inject constructor(val db: AppDatabase, private val
                     //Timber.d(actionAndJsonBodies.toString())
                     // Архив с файлами
                     var fileBody: MultipartBody.Part? = null
+
+                    Timber.d("checkupsWasSync=${checkupsWasSync}")
 
                     val syncDirs=OtherUtil().getDirForSync(checkupsWasSync)
 
@@ -142,9 +145,11 @@ class MainActivityPresenter @Inject constructor(val db: AppDatabase, private val
 
                         view?.dataSyncOK() // Пометим чеклисты как переданные
                         view?.showMainActivityMsg(R.string.msgDataSendOk)
+                        presenter?.unlockBtnSend() // Разблокируем кнопку Отправить
 
                     }, { throwable ->
                         throwable.printStackTrace()
+                        presenter?.unlockBtnSend() // Разблокируем кнопку Отправить
                         if (throwable is ThrowHelper) {
                             //view?.showMainActivityMsg("${throwable.message}")
                             //view?.showMainActivityMsg(R.string.isCheckupWithResult)
@@ -181,16 +186,6 @@ class MainActivityPresenter @Inject constructor(val db: AppDatabase, private val
             checkupsWasSync.forEach {
                 it.sync=true
                 db.checkupDao().update(it)
-
-                // Обновим состояние заявки
-                /*val idOrder=it.idOrder
-                if (idOrder!=null) {
-                    val order=db.ordersDao().getById(idOrder)
-                    order.state=STATE_DONE // выполнено
-
-                    db.ordersDao().update(order)
-                }*/
-
             }
         }
         .subscribeOn(Schedulers.io())

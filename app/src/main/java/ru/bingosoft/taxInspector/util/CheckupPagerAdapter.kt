@@ -20,10 +20,10 @@ class CheckupPagerAdapter(private val control: Models.TemplateControl, private v
         container.addView(itemView)
 
         // Генерируем вопросы группы
-        Timber.d("control=${control}")
+        Timber.d("${control.subcheckup[position].textResult}")
         val uiCreator= UICreator(parentFragment, control.subcheckup[position])
         val cl=uiCreator.create(rootView = itemView,parent = control)
-        Timber.d("cl=${cl.list}")
+
 
         adapterControlList.list.add(cl)
         Timber.d("adapterControlList=${adapterControlList.list}")
@@ -46,6 +46,11 @@ class CheckupPagerAdapter(private val control: Models.TemplateControl, private v
             0
         }
 
+    }
+
+    override fun getPageTitle(position: Int): CharSequence? {
+        //return "Объект ${position+1}"
+        return parentFragment.getString(R.string.pageTitle, position+1)
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {

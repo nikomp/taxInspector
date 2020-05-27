@@ -111,9 +111,13 @@ class CheckupPresenter @Inject constructor(val db: AppDatabase) {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({_->
                 view?.showCheckupMessage(R.string.msgSaveCheckup)
-            },{trowable ->
-                trowable.printStackTrace()
+            },{error ->
+                error.printStackTrace()
             })
+    }
+
+    fun unlockBtnSend(){
+        view?.unlockBtnSend()
     }
 
     fun onDestroy() {

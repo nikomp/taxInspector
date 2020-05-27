@@ -6,7 +6,6 @@ import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
-import ru.bingosoft.taxInspector.models.Models
 import ru.bingosoft.taxInspector.ui.mainactivity.MainActivity
 import ru.bingosoft.taxInspector.util.Const.RequestCodes.PHOTO
 import timber.log.Timber
@@ -25,12 +24,13 @@ class PhotoHelper {
      * Метод для создания фото и сохранения ее в файл и БД
      *
      */
-    fun createPhoto(dirName: String, step: Models.TemplateControl) {
+    fun createPhoto(dirName: String) {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
         var uri: Uri? = null
         try {
-            val photoFile=createImageFile("$dirName/${step.guid}")
+            //val photoFile=createImageFile("$dirName/${step.guid}")
+            val photoFile=createImageFile(dirName)
             Timber.d("photoFile=${photoFile.absolutePath}")
             (parentFragment.requireActivity() as MainActivity).lastKnownFilenamePhoto=photoFile.absolutePath
 
@@ -240,5 +240,14 @@ class PhotoHelper {
             return true
         }
         return false
+    }
+
+    fun deletePhoto(filename: String):Boolean {
+        val file=File(filename)
+        return if (file.exists() && file.isFile ) {
+            file.delete()
+        } else {
+            false
+        }
     }
 }

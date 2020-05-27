@@ -39,17 +39,32 @@
                 android:layout_height="wrap_content">
 
                 <view
+                    android:id="@+id/sliding_tabs"
+                    class="ru.bingosoft.taxInspector.util.SlidingTab.SlidingTabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <view
                     android:id="@+id/viewPager"
                     class="ru.bingosoft.taxInspector.util.WrapContentHeightViewPager"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="578dp"
+                    android:background="@color/colorCardItem"
                     android:paddingBottom="4dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintTop_toBottomOf="@+id/sliding_tabs">
+
+                    <!--<androidx.viewpager.widget.PagerTabStrip
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top" />-->
+
+                </view>
 
                 <ImageButton
                     android:id="@+id/left_nav"
@@ -60,6 +75,7 @@
                     android:background="#80ffffff"
                     android:padding="5dp"
                     android:scaleType="centerInside"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/arrow_right" />
@@ -75,6 +91,7 @@
                     android:background="#80ffffff"
                     android:padding="5dp"
                     android:scaleType="centerInside"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="@+id/viewPager"
                     app:layout_constraintEnd_toEndOf="@+id/viewPager"
                     app:layout_constraintTop_toTopOf="@+id/viewPager"
@@ -93,6 +110,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/countCheckup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:drawableLeft="@drawable/ic_playlist_add_check_black_24dp"
+                    android:drawablePadding="4dp"
+                    android:text="1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/addNewStep" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/addNewStep"
@@ -129,17 +158,6 @@
                     app:layout_constraintBottom_toTopOf="@+id/linearLayout2" />
             </LinearLayout>
 
-
-            <TextView
-                android:id="@+id/countCheckup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:drawableLeft="@drawable/ic_playlist_add_check_black_24dp"
-                android:drawablePadding="4dp"
-                android:text="1"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addNewStep" />
 
             <LinearLayout
                 android:id="@+id/linearLayout2"

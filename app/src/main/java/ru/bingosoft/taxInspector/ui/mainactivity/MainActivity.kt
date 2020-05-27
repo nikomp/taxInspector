@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity(), FragmentsContractActivity,
     var mapPoint: Point=Point(0.0,0.0)
     var controlMapId: Int=0
     var photoDir: String=""
+    var linearLayoutPhotoParent: View?=null
     var lastKnownFilenamePhoto=""
     var photoStep: Models.TemplateControl?=null
     lateinit var currentOrder: Orders
@@ -363,7 +364,12 @@ class MainActivity : AppCompatActivity(), FragmentsContractActivity,
 
         Timber.d("setPhotoResult from Activity")
         val cf=this.supportFragmentManager.findFragmentByTag("checkup_fragment_tag") as? CheckupFragment
-        cf?.setPhotoResult(photoStep?.id, photoDir)
+        if (linearLayoutPhotoParent==null) {
+            cf?.setPhotoResult(photoStep?.id, photoDir)
+        } else {
+            cf?.setPhotoResult(photoStep?.id, photoDir, linearLayoutPhotoParent)
+        }
+
         photoStep?.resvalue=photoDir
 
     }
