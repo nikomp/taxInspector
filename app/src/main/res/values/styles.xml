@@ -21,5 +21,11 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
+    <style name="DialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">stateVisible|adjustResize</item>
+    </style>
+
 
 </resources>

@@ -14,6 +14,10 @@ data class CheckupGuide (
     var guid: String,
     var kindCheckup: String,
     var text: JsonObject
-)
+) {
+    override fun toString(): String {
+        return "CheckupGuide(id=$id, guid='$guid', kindCheckup='$kindCheckup', text=$text)"
+    }
+}
 
 

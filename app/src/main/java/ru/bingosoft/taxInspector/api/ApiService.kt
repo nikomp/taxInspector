@@ -10,7 +10,7 @@ interface ApiService {
     @POST("redis-session-php/login.php")
     @FormUrlEncoded
     fun getAuthorization(
-        @Field("fingerprint") fingerprint: String?,
+        @Field("mobile") mobile: Boolean=false,
         @Field("login") login: String?,
         @Field("password") password: String?
     ): Single<Models.Auth>
@@ -40,6 +40,13 @@ interface ApiService {
         @Query("action") action: String,
         @Query("codeMessage") codeMessage: Int
     ): Single<Models.CheckupGuideList>
+
+    @GET("procs/androidAPI.php")
+    fun sendLog(
+        @Query("action") action: String,
+        @Query("tag") tag: String?="",
+        @Query("message") message: String
+    ): Single<Unit>
 
     @POST("procs/androidAPI.php")
     @Multipart

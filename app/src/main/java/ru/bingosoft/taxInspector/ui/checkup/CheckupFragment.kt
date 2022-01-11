@@ -136,7 +136,7 @@ class CheckupFragment : Fragment(), CheckupContractView, View.OnClickListener {
                     //checkupPresenter.saveCheckup(controlList,this.checkup)
                 }
                 R.id.mbSendCheckup -> {
-                    Timber.d("Отправляем данные на сервер")
+                    Timber.d("Отправляем_данные_на_сервер")
                     (this.requireActivity() as MainActivity).mainPresenter.sendData(checkupPresenter)
                     v.isEnabled=false
                 }
@@ -208,6 +208,7 @@ class CheckupFragment : Fragment(), CheckupContractView, View.OnClickListener {
             if (v==null) {
                 root.findViewById<LinearLayout>(controlId)
             } else {
+                Timber.d("vvvv=$v")
                 (v as LinearLayout)
             }
 

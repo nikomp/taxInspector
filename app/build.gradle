@@ -12,6 +12,14 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 
 android {
+    signingConfigs {
+        config {
+            storeFile file('D:\\РАБОТА\\keystore2.jks')
+            storePassword 'IkWMYC'
+            keyAlias 'map'
+            keyPassword 'F8ORTl'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
@@ -25,24 +33,33 @@ android {
         vectorDrawables.useSupportLibrary = true // Для использования VectorDrawable в Fab кнопке
 
         multiDexEnabled true
+        signingConfig signingConfigs.config
     }
     buildTypes {
         debug {
             resValue 'string', 'login', accent_login
             resValue 'string', 'password', accent_password
+            resValue 'string', 'url', '"http://82.208.68.123/"'
 
-            buildConfigField "String", "urlServer", '"http://demo.bingosoft-office.ru/redevelopment/"'
+            //buildConfigField "String", "urlServer", '"http://demo.bingosoft-office.ru/redevelopment/"'
+            buildConfigField "String", "urlServer", '"http://82.208.68.123/"'
             buildConfigField "String", "yandex_mapkit_api", yandex_mapkit_api
+            buildConfigField "Boolean", "SERVER_LOGGING", "true"
+
         }
         release {
             resValue 'string', 'login', ""
             resValue 'string', 'password', ""
+            resValue 'string', 'url', '"http://82.208.68.123/"'
 
-            buildConfigField "String", "urlServer", '"http://demo.bingosoft-office.ru/redevelopment/"'
+            //buildConfigField "String", "urlServer", '"http://demo.bingosoft-office.ru/redevelopment/"'
+            buildConfigField "String", "urlServer", '"http://82.208.68.123/"'
             buildConfigField "String", "yandex_mapkit_api", yandex_mapkit_api
+            buildConfigField "Boolean", "SERVER_LOGGING", "true"
 
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
     compileOptions {

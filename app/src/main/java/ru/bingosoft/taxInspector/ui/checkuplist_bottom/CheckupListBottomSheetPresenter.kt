@@ -24,27 +24,26 @@ class CheckupListBottomSheetPresenter @Inject constructor(val db: AppDatabase) {
         disposable=db.checkupGuideDao().getAll()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+            .subscribe ({
                 Timber.d("Справочник чеклистов получили из БД")
                 Timber.d(it.toString())
-
                 view?.showKindObject(it)
-            }
+            },{throwable ->
+                throwable.printStackTrace()
+            })
     }
 
-    fun saveObject(checkupGuide: CheckupGuide, nameObject: String) {
-        Timber.d("Сохраняем новый объект $nameObject")
-        Timber.d("Сохраняем новый объект ${checkupGuide.kindCheckup}")
+    fun saveObject(checkupGuide: CheckupGuide, nameObject: String, idOrder:Long) {
+        Timber.d("Сохраняем_новый_объект ${checkupGuide.kindCheckup} $nameObject")
 
-        val checkup=Checkup(0,UUID.randomUUID().toString(),checkupGuide.kindCheckup,nameObject,checkupGuide.text)
+        val checkup=Checkup(0,UUID.randomUUID().toString(),checkupGuide.kindCheckup,nameObject,checkupGuide.text,idOrder = idOrder)
 
-        disposable=Single.fromCallable{
+        Single.fromCallable{
             db.checkupDao().insert(checkup)
         }
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe{_->
-            Timber.d("Сохранили новый объект обследования")
             view?.saveNewObjectOk()
         }
     }

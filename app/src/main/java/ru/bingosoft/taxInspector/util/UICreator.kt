@@ -12,7 +12,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
@@ -261,11 +260,11 @@ class UICreator(val parentFragment: CheckupFragment, val checkup: Checkup) {
                             tc.checked=!tc.checked
                             changeChecked(ts,tc)
 
-                            val parent=tc.parent
-                            if (parent!=null) {
-                                val parentView=parentFragment.root.findViewById<View>(parent.id)
-                                parent.checked=false
-                                changeChecked(parentView, parent)
+                            val parentTemp=tc.parent
+                            if (parentTemp!=null) {
+                                val parentView=parentFragment.root.findViewById<View>(parentTemp.id)
+                                parentTemp.checked=false
+                                changeChecked(parentView, parentTemp)
                             }
                         }
 
@@ -290,7 +289,7 @@ class UICreator(val parentFragment: CheckupFragment, val checkup: Checkup) {
 
                     // Получим список фоток из папки
                     if (it.resvalue.isNotEmpty()) {
-                        parentFragment.setPhotoResult(it.id,it.resvalue,rootView)
+                        parentFragment.setPhotoResult(it.id,it.resvalue,templateStep) //rootView
                     } else {
                         /*val curOrder=(parentFragment.activity as MainActivity).currentOrder
                         if (stepCheckup.parent!=null && stepCheckup.parent!!.type=="group_questions") {
@@ -319,11 +318,11 @@ class UICreator(val parentFragment: CheckupFragment, val checkup: Checkup) {
                             tc.checked=!tc.checked
                             changeChecked(ts,tc)
 
-                            val parent=tc.parent
-                            if (parent!=null) {
-                                val parentView=parentFragment.root.findViewById<View>(parent.id)
-                                parent.checked=false
-                                changeChecked(parentView, parent)
+                            val parentTemp=tc.parent
+                            if (parentTemp!=null) {
+                                val parentView=parentFragment.root.findViewById<View>(parentTemp.id)
+                                parentTemp.checked=false
+                                changeChecked(parentView, parentTemp)
                             }
                         }
 
@@ -735,7 +734,7 @@ class UICreator(val parentFragment: CheckupFragment, val checkup: Checkup) {
     private fun attachListenerToFab(v: View, control: Models.TemplateControl) {
         Timber.d("attachListenerToFab")
 
-        val fab: FloatingActionButton = v.findViewById(R.id.fabCheck)
+        val fab: ImageButton = v.findViewById(R.id.fabCheck)
         fab.setOnClickListener {
             Timber.d("Прошли шаг чеклиста")
 
@@ -869,6 +868,13 @@ class UICreator(val parentFragment: CheckupFragment, val checkup: Checkup) {
      */
     fun changeChecked(v: View, control: Models.TemplateControl) {
         val cardView = v.findViewById<CardView>(R.id.cv)
+        val fabButton = if (control.type=="group_questions") {
+            v.findViewWithTag<ImageButton>("fabGroup")
+        } else {
+            v.findViewById<ImageButton>(R.id.fabCheck)
+        }
+
+        val colorLine=v.findViewById<FrameLayout>(R.id.colorLine)
         if (control.checked) {
             cardView?.setCardBackgroundColor(
                 ContextCompat.getColor(
@@ -876,6 +882,8 @@ class UICreator(val parentFragment: CheckupFragment, val checkup: Checkup) {
                     R.color.colorCardSelect
                 )
             )
+            fabButton.setImageResource(R.drawable.ic_check_blue)
+            colorLine.visibility=View.VISIBLE
         } else {
             cardView?.setCardBackgroundColor(
                 ContextCompat.getColor(
@@ -883,16 +891,9 @@ class UICreator(val parentFragment: CheckupFragment, val checkup: Checkup) {
                     R.color.colorCardItem
                 )
             )
+            fabButton.setImageResource(R.drawable.ic_check)
+            colorLine.visibility=View.INVISIBLE
         }
     }
-
-    /*private fun parseLatLng(str: String): LatLng {
-        Timber.d("parseLatLng $str")
-        val lat=str.substring(str.indexOf("latitude=")+9,str.indexOf(", longitude")).toDouble()
-        val lon=str.substring(str.indexOf("longitude=")+10,str.indexOf(", altitude")).toDouble()
-        return LatLng(lat, lon)
-    }*/
-
-
 
 }

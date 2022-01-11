@@ -2,11 +2,11 @@ package ru.bingosoft.taxInspector.util
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import ru.bingosoft.taxInspector.ui.mainactivity.MainActivity
+import ru.bingosoft.taxInspector.util.Const.Photo.DCIM_DIR
 import ru.bingosoft.taxInspector.util.Const.RequestCodes.PHOTO
 import timber.log.Timber
 import java.io.*
@@ -65,7 +65,7 @@ class PhotoHelper {
         val timeStamp = SimpleDateFormat("yyyy-MM-dd_HHmmss", Locale("ru","RU")) .format(Date())
 
         val imageFileName = "JPEG_ $timeStamp" + "_"
-        val storageDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), stDir)
+        val storageDir = File(DCIM_DIR, stDir)
 
         if (!storageDir.exists()) {
             Timber.d("создадим папку")
@@ -123,7 +123,7 @@ class PhotoHelper {
 
         // Создадим папку для архива
         val zipDir =
-            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString() + "/zipDir")
+            File("$DCIM_DIR/zipDir")
         if (!zipDir.exists()){
             zipDir.mkdirs()
         }
@@ -131,7 +131,7 @@ class PhotoHelper {
         // Копируем в нее нужные файлы с фото
         syncDirs.forEach {
             Timber.d("dirSources=$it")
-            val dirSources=File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString() + "/PhotoForApp/$it")
+            val dirSources=File("$DCIM_DIR/PhotoForApp/$it")
             // Почистим папку от нулевых файлов
             if (dirSources.isDirectory) {
                 dirSources.listFiles()?.forEach { file ->
@@ -142,16 +142,16 @@ class PhotoHelper {
                 }
             }
 
-            val dirTarget=File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString() + "/zipDir/$it")
+            val dirTarget=File("$DCIM_DIR/zipDir/$it")
             copyDir(dirSources,dirTarget)
         }
 
 
         // Создадим архив из папки с фото
         val storageDir =
-            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString() + "/zipDir")
+            File("$DCIM_DIR/zipDir")
         val fileZip =
-            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString() + "/zipDir.zip")
+            File("$DCIM_DIR/zipDir.zip")
 
         // Проверим может архив уже есть
         if (fileZip.exists()) {
@@ -235,7 +235,7 @@ class PhotoHelper {
     }
 
     fun checkDirAndEmpty(dirName: String): Boolean {
-        val file=File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString() + "/PhotoForApp/$dirName")
+        val file=File("$DCIM_DIR/PhotoForApp/$dirName")
         if (file.exists() && file.isDirectory && !file.listFiles().isNullOrEmpty()) {
             return true
         }

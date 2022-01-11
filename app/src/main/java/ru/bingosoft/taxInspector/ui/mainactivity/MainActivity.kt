@@ -83,10 +83,19 @@ class MainActivity : AppCompatActivity(), FragmentsContractActivity,
     private lateinit var locationManager: LocationManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Timber.d("MainActivity_onCreate")
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Все логи Timber.d BuildConfig.DEBUG версии отправляются на сервер
+        //MainActivity.OnCreate
+        if (BuildConfig.DEBUG) {
+            if (BuildConfig.SERVER_LOGGING) {
+                Timber.plant(ServerLoggingTree(apiService))
+            } else {
+                Timber.plant(Timber.DebugTree())
+            }
+        }
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -107,26 +116,7 @@ class MainActivity : AppCompatActivity(), FragmentsContractActivity,
             Timber.d("startService_MainActivity22")
         }
 
-        /*if (!sharedPref.isLocationTracking()) {
-            Timber.d("zzz=${sharedPref.getLogin()}_${sharedPref.getPassword()}")
-            // Проверим авторизован ли пользователь
-            if (sharedPref.getLogin()!="" && sharedPref.getPassword()!="") {
-                Timber.d("startService_MainActivity")
-                // Стартуем фоновый сервис для отслеживания пользователя
-                startService(Intent(this,UserLocationService::class.java))
-            }
-        } else {
-            val locationManager=getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            Timber.d("GPS_PROVIDER=${locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)}")
-            Timber.d("NETWORK_PROVIDER=${locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)}")
-            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) &&
-                !locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                buildAlertMessageNoGps()
-                Timber.d("startService_MainActivity22")
-                // Стартуем фоновый сервис для отслеживания пользователя
-                startService(Intent(this,UserLocationService::class.java))
-            }
-        }*/
+
         // Регистрируем широковещательный слушатель для получения данных от фонового сервиса
         LocalBroadcastManager.getInstance(this).registerReceiver(userLocationReceiver, IntentFilter("userLocationUpdates"))
 
@@ -294,6 +284,7 @@ class MainActivity : AppCompatActivity(), FragmentsContractActivity,
         }
 
         userLocationReceiver.onDestroy()
+        sharedPref.clearAuthData() // Очистим информацию об авторизации
 
     }
 
@@ -336,7 +327,7 @@ class MainActivity : AppCompatActivity(), FragmentsContractActivity,
     }
 
     override fun setChecupListOrder(order: Orders) {
-        Timber.d("setChecupListOrder from Activity")
+        Timber.d("setChecupListOrder_from_Activity")
         val clf=this.supportFragmentManager.findFragmentByTag("checkup_list_fragment_tag") as? CheckupListFragment
         clf?.showCheckupListOrder(order)
     }

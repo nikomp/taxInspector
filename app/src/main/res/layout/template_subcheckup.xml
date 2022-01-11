@@ -8,13 +8,20 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
         android:layout_marginRight="4dp"
         app:cardBackgroundColor="@color/colorCardItem">
+
+        <FrameLayout
+            android:id="@+id/colorLine"
+            android:layout_width="4dp"
+            android:layout_height="match_parent"
+            android:background="#297BE7"
+            android:visibility="invisible" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,10 +32,15 @@
                 android:id="@+id/question"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:text="@string/textview"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:fontFamily="@font/roboto_bold"
-                android:textSize="15sp"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -39,25 +51,17 @@
                 android:layout_height="wrap_content">
 
                 <view
-                    android:id="@+id/sliding_tabs"
-                    class="ru.bingosoft.taxInspector.util.SlidingTab.SlidingTabLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <view
                     android:id="@+id/viewPager"
                     class="ru.bingosoft.taxInspector.util.WrapContentHeightViewPager"
                     android:layout_width="0dp"
-                    android:layout_height="578dp"
+                    android:layout_height="512dp"
+                    android:layout_marginStart="8dp"
                     android:background="@color/colorCardItem"
                     android:paddingBottom="4dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/sliding_tabs"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/sliding_tabs">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <!--<androidx.viewpager.widget.PagerTabStrip
                         android:layout_width="match_parent"
@@ -65,6 +69,15 @@
                         android:layout_gravity="top" />-->
 
                 </view>
+
+                <view
+                    android:id="@+id/sliding_tabs"
+                    class="ru.bingosoft.taxInspector.util.SlidingTab.SlidingTabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageButton
                     android:id="@+id/left_nav"
@@ -98,17 +111,10 @@
                     app:srcCompat="@drawable/arrow_left" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!--<Button
-                android:id="@+id/addNewStep"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/btnAddCheckup"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout2" />-->
-
             <LinearLayout
                 android:id="@+id/llbtnConteiner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal">
 
                 <TextView
@@ -116,7 +122,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
                     android:drawableLeft="@drawable/ic_playlist_add_check_black_24dp"
                     android:drawablePadding="4dp"
                     android:text="1"
@@ -129,8 +134,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
                     android:background="@color/buttonBackgroundLight"
                     android:fontFamily="@font/roboto_medium"
@@ -146,8 +149,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
                     android:background="@color/buttonBackgroundLight"
                     android:fontFamily="@font/roboto_medium"
@@ -156,37 +157,48 @@
                     app:backgroundTint="@color/buttonBackgroundLight"
                     app:cornerRadius="22dp"
                     app:layout_constraintBottom_toTopOf="@+id/linearLayout2" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/fabCheck"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@null"
+                        android:tag="fabGroup"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_check" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
-
-            <LinearLayout
-                android:id="@+id/linearLayout2"
+            <!--<Button
+                android:id="@+id/addNewStep"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent">
+                android:text="@string/btnAddCheckup"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout2" />-->
 
-                <TextView
-                    android:id="@+id/errorSubcheckup"
-                    android:layout_width="279dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center|left"
-                    android:layout_weight="1"
-                    android:text="@string/not_checked_control"
-                    android:textColor="@color/error"
-                    android:visibility="invisible" />
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fabCheck"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:backgroundTint="@color/colorAccent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:fabCustomSize="32dp"
-                    app:srcCompat="@drawable/ic_check_black_8dp" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/errorSubcheckup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_weight="1"
+                android:text="@string/not_checked_control"
+                android:textColor="@color/error"
+                android:visibility="invisible" />
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

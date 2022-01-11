@@ -22,27 +22,36 @@
 
         <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
             android:id="@+id/spinner_kindobject"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="4dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_medium"
             android:hint="@string/select_here"
-            android:textColorHint="#B0BEC5"
+            android:paddingLeft="12dp"
+            android:singleLine="true"
+            android:textColorHint="#05ab9a"
+            android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:met_floatingLabel="normal" />
 
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="8dp"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
             app:layout_constraintBottom_toTopOf="@+id/btnSaveNewObject"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,24 +59,33 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tietNameObject"
+                android:fontFamily="@font/roboto_medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorCardItem"
-                android:hint="@string/object_name" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:hint="@string/object_name"
+                android:imeOptions="actionSend|flagNoEnterAction"
+                android:inputType="text"
+                android:textSize="15sp"/>
 
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSaveNewObject"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="@color/buttonBackground"
+            android:fontFamily="@font/roboto_medium"
             android:onClick="onClick"
-            android:text="@string/btnSave"
+            android:text="@string/saveCheckup"
+            app:backgroundTint="@color/buttonBackground"
+            app:cornerRadius="22dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

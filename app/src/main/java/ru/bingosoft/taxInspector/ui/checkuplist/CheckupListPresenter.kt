@@ -32,14 +32,17 @@ class CheckupListPresenter @Inject constructor(val db: AppDatabase) {
 
     fun loadCheckupListByOrder(idOrder: Long) {
         Timber.d("idOrder=$idOrder")
+        // Не отключать disposable, отвечает за обновление списка
         disposable=db.checkupDao().getCheckupsOrder(idOrder)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+            .subscribe ({
                 Timber.d("loadCheckupListByOrder")
                 Timber.d(it.toString())
                 view?.showCheckups(it)
-            }
+            },{ throwable ->
+                throwable.printStackTrace()
+            })
     }
 
     fun onDestroy() {

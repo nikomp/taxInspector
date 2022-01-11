@@ -20,6 +20,7 @@ class Const {
         const val APP_PREFERENCES = "AppSettings"
         const val LOGIN = "login"
         const val PASSWORD = "password"
+        const val TOKEN = "token"
         const val SESSION = "session_id"
         const val DATESYNC = "last_sync_date"
         const val USER_FULLNAME = "fullname"

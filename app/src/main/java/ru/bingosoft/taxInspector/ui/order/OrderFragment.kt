@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +27,7 @@ import ru.bingosoft.taxInspector.ui.login.LoginPresenter
 import ru.bingosoft.taxInspector.ui.mainactivity.FragmentsContractActivity
 import ru.bingosoft.taxInspector.ui.mainactivity.MainActivity
 import ru.bingosoft.taxInspector.util.Const
+import ru.bingosoft.taxInspector.util.Const.LogTags.SPS
 import ru.bingosoft.taxInspector.util.SharedPrefSaver
 import ru.bingosoft.taxInspector.util.Toaster
 import ru.bingosoft.taxInspector.util.UserLocationService
@@ -104,10 +106,13 @@ class OrderFragment : Fragment(), LoginContractView, OrderContractView, OrdersRV
             val login = sharedPref.getLogin()
             val password = sharedPref.getPassword()
 
+            Log.d(SPS,"===$login $password")
+
             loginPresenter.attachView(this)
             loginPresenter.authorization(login, password) // Проверим есть ли авторизация
         } else {
             Timber.d("логин/пароль=ОТСУТСТВУЮТ")
+            Log.d(SPS,"логин/пароль=ОТСУТСТВУЮТ")
             // Запустим активити с настройками
             val intent = Intent(this.activity, LoginActivity::class.java)
             startActivityForResult(intent, Const.RequestCodes.AUTH)
@@ -121,9 +126,11 @@ class OrderFragment : Fragment(), LoginContractView, OrderContractView, OrdersRV
             when (requestCode) {
                 Const.RequestCodes.AUTH -> {
                     Timber.d( "Авторизуемся")
+                    Log.d(SPS,"Const.RequestCodes.AUTH")
                     if (data != null) {
                         val login = data.getStringExtra("login")
                         val password = data.getStringExtra("password")
+                        Log.d(SPS,"$login $password")
 
                         loginPresenter.attachView(this)
                         loginPresenter.authorization(login, password)
@@ -132,6 +139,7 @@ class OrderFragment : Fragment(), LoginContractView, OrderContractView, OrdersRV
                 }
                 else -> {
                     //toaster.showToast(R.string.unknown_requestCode)
+                    Log.d(SPS,"not Const.RequestCodes.AUTH")
                 }
             }
         }
@@ -155,8 +163,13 @@ class OrderFragment : Fragment(), LoginContractView, OrderContractView, OrdersRV
     }
 
     override fun saveLoginPasswordToSharedPreference(stLogin: String, stPassword: String) {
+        Log.d(SPS, "stLogin=$stLogin $stPassword")
         sharedPref.saveLogin(stLogin)
         sharedPref.savePassword(stPassword)
+    }
+
+    override fun saveToken(token: String) {
+        sharedPref.saveToken(token)
     }
 
     override fun showFailureTextView() {

@@ -10,7 +10,7 @@ import ru.bingosoft.taxInspector.R
 import ru.bingosoft.taxInspector.api.ApiService
 import ru.bingosoft.taxInspector.db.AppDatabase
 import ru.bingosoft.taxInspector.models.Models
-import ru.bingosoft.taxInspector.util.Const.LogTags.LOGTAG
+import ru.bingosoft.taxInspector.util.Const.LogTags.SPS
 import ru.bingosoft.taxInspector.util.SharedPrefSaver
 import ru.bingosoft.taxInspector.util.ThrowHelper
 import timber.log.Timber
@@ -36,17 +36,25 @@ class LoginPresenter @Inject constructor(
 
     fun authorization(stLogin: String?, stPassword: String?){
         Timber.d("authorization1 $stLogin _ $stPassword")
-        val fingerprint: String = random()
+        Log.d(SPS, "authorization1=$stLogin $stPassword")
+        //val fingerprint: String = random()
 
         if (stLogin!=null && stPassword!=null) {
-            disposable=apiService.getAuthorization(fingerprint,stLogin,stPassword)
+            disposable=apiService.getAuthorization(
+                mobile = true,
+                login = stLogin,
+                password = stPassword
+            )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     Timber.d("Авторизовались")
+                    Log.d(SPS,"Авторизовались")
+                    Log.d(SPS, "stLogin=$stLogin $stPassword")
                     this.stLogin=stLogin
                     this.stPassword=stPassword
                     view?.saveLoginPasswordToSharedPreference(stLogin,stPassword)
+                    view?.saveToken(it.newToken)
 
                     val v=view
                     if (v!=null) {
@@ -103,14 +111,14 @@ class LoginPresenter @Inject constructor(
      *
      * @return - возвращается строка содержащая ГУИД
      */
-    private fun random(): String {
+    /*private fun random(): String {
         var stF = UUID.randomUUID().toString()
         stF = stF.replace("-".toRegex(), "")
         stF = stF.substring(0, 32)
         Log.d(LOGTAG, "random()=$stF")
 
         return stF
-    }
+    }*/
 
     fun onDestroy() {
         this.view = null
@@ -118,7 +126,7 @@ class LoginPresenter @Inject constructor(
             disposable.dispose()
         }
 
-        sharedPrefSaver.clearAuthData() // Очистим информацию об авторизации
+
     }
 
     fun syncDB() {
@@ -196,13 +204,15 @@ class LoginPresenter @Inject constructor(
         .subscribeOn(Schedulers.io())
         //.observeOn(AndroidSchedulers.mainThread())
         .map{ response ->
-            Timber.d("Получили справочник чеклистов")
+            Timber.d("Получили_справочник_чеклистов")
             Timber.d(response.toString())
 
             val data: Models.CheckupGuideList = response
             Single.fromCallable{
                 db.checkupGuideDao().clearCheckupGuide() // Перед вставкой очистим таблицу
+                Timber.d("data_guides=${data.guides.size}")
                 data.guides.forEach{
+                    Timber.d("guides=$it")
                     db.checkupGuideDao().insert(it)
                 }
 
@@ -210,7 +220,7 @@ class LoginPresenter @Inject constructor(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe{_->
-                Timber.d("Сохранили справочник чеклистов в БД")
+                Timber.d("Сохранили_справочник_чеклистов_в_БД")
             }
 
         }

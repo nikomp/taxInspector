@@ -88,6 +88,8 @@ class MainActivityPresenter @Inject constructor(val db: AppDatabase, private val
 
     fun sendData(presenter: CheckupPresenter?=null) {
         Timber.d("sendData")
+        view?.showMainActivityMsg("Отправляем")
+
         disposable =
             db.checkupDao()
                 .getResultAll()
@@ -140,6 +142,7 @@ class MainActivityPresenter @Inject constructor(val db: AppDatabase, private val
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     { response ->
+                        disposable.dispose()
                         Timber.d(response.toString())
                         zipFile.delete() // удалим переданный архив
 
@@ -148,6 +151,7 @@ class MainActivityPresenter @Inject constructor(val db: AppDatabase, private val
                         presenter?.unlockBtnSend() // Разблокируем кнопку Отправить
 
                     }, { throwable ->
+                        disposable.dispose()
                         throwable.printStackTrace()
                         presenter?.unlockBtnSend() // Разблокируем кнопку Отправить
                         if (throwable is ThrowHelper) {

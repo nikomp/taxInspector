@@ -17,6 +17,13 @@
         android:layout_marginRight="4dp"
         app:cardBackgroundColor="@color/colorCardItem">
 
+        <FrameLayout
+            android:id="@+id/colorLine"
+            android:layout_width="4dp"
+            android:layout_height="match_parent"
+            android:background="#297BE7"
+            android:visibility="invisible" />
+
         <LinearLayout
 
             android:id="@+id/templateSpinner"
@@ -178,7 +185,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fabCheck"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -188,12 +195,22 @@
                     android:focusable="true"
                     app:fabCustomSize="32dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:srcCompat="@drawable/ic_check_black_8dp" />
+                    app:srcCompat="@drawable/ic_check_black_8dp" />-->
+
+                <ImageButton
+                    android:id="@+id/fabCheck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_check" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/errorPhoto"
-                android:layout_width="279dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
                 android:layout_weight="1"

@@ -106,6 +106,7 @@ class CheckupListFragment: Fragment(), CheckupListContractView, CheckupListRVCli
     }
 
     fun showCheckupListOrder(order: Orders) {
+        Timber.d("showCheckupListOrder")
         checkupListPresenter.loadCheckupListByOrder(order.id)
     }
 

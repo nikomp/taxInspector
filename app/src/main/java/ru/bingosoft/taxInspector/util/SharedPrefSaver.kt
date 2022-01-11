@@ -12,6 +12,7 @@ import ru.bingosoft.taxInspector.util.Const.SharedPrefConst.LOCATION_TRACKING
 import ru.bingosoft.taxInspector.util.Const.SharedPrefConst.LOGIN
 import ru.bingosoft.taxInspector.util.Const.SharedPrefConst.PASSWORD
 import ru.bingosoft.taxInspector.util.Const.SharedPrefConst.SESSION
+import ru.bingosoft.taxInspector.util.Const.SharedPrefConst.TOKEN
 import ru.bingosoft.taxInspector.util.Const.SharedPrefConst.USER_FULLNAME
 import ru.bingosoft.taxInspector.util.Const.SharedPrefConst.USER_PHOTO_URL
 import timber.log.Timber
@@ -25,6 +26,8 @@ class SharedPrefSaver(ctx: Context) {
 
     fun saveLogin(login: String) {
         Timber.d("saveLogin")
+        Log.d(SPS, "===saveLogin")
+        Log.d(SPS, login)
         val editor: SharedPreferences.Editor = sharedPreference.edit()
         editor.putString(LOGIN, login)
         editor.apply()
@@ -38,6 +41,7 @@ class SharedPrefSaver(ctx: Context) {
 
     fun savePassword(password: String) {
         Log.d(SPS, "savePassword")
+        Log.d(SPS, password)
 
         /*val coder = Coder(ctx) // Создадим экземпляр шифратора
         //ШИФРУЕМ
@@ -93,6 +97,16 @@ class SharedPrefSaver(ctx: Context) {
 
         return ""
 
+    }
+
+    fun getToken(): String {
+        return sharedPreference.getString(TOKEN, "") ?: ""
+    }
+
+    fun saveToken(token: String) {
+        val editor: SharedPreferences.Editor = sharedPreference.edit()
+        editor.putString(TOKEN, token)
+        editor.apply()
     }
 
     fun saveDateSyncDB(date: Date) {

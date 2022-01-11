@@ -1,12 +1,17 @@
 package ru.bingosoft.taxInspector.ui.checkuplist_bottom
 
-import android.app.Dialog
+import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.fragment.app.DialogFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
@@ -14,6 +19,7 @@ import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
 import dagger.android.support.AndroidSupportInjection
 import ru.bingosoft.taxInspector.R
 import ru.bingosoft.taxInspector.db.CheckupGuide.CheckupGuide
+import ru.bingosoft.taxInspector.ui.mainactivity.MainActivity
 import ru.bingosoft.taxInspector.util.Toaster
 import timber.log.Timber
 import javax.inject.Inject
@@ -27,25 +33,13 @@ class CheckupListBottomSheet: BottomSheetDialogFragment(), CheckupListBottomShee
     @Inject
     lateinit var toaster: Toaster
 
-    private lateinit var checkupGuideCurrent: CheckupGuide
+    private var checkupGuideCurrent: CheckupGuide?=null
     private lateinit var rootView: View
 
-    override fun setupDialog(dialog: Dialog, style: Int) {
-        AndroidSupportInjection.inject(this)
-        super.setupDialog(dialog, style)
 
-        val view=LayoutInflater.from(context).inflate(R.layout.checkuplist_bottom_sheet,null)
-        this.rootView=view
-        // Заполним комбобокс Тип Объекта
-        mbSpinner=view.findViewById(R.id.spinner_kindobject)
-        dialog.setContentView(view)
-
-        val btnSave = view.findViewById(R.id.btnSaveNewObject) as MaterialButton
-        btnSave.setOnClickListener(this)
-
-        clbsPresenter.attachView(this)
-        clbsPresenter.getKindObject()
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.DialogStyle)
     }
 
     override fun showKindObject(checkupGuides: List<CheckupGuide>) {
@@ -66,7 +60,7 @@ class CheckupListBottomSheet: BottomSheetDialogFragment(), CheckupListBottomShee
 
         mbSpinner.setAdapter(spinnerArrayAdapter)
         // Вешаем обработчик на spinner последним, иначе сбрасывается цвет шага
-        mbSpinner.setOnItemClickListener { adapterView: AdapterView<*>, view1: View, position: Int, l: Long ->
+        mbSpinner.setOnItemClickListener { _: AdapterView<*>, _: View, position: Int, _: Long ->
             Timber.d("position $position")
             checkupGuideCurrent=checkupGuides[position]
 
@@ -74,31 +68,91 @@ class CheckupListBottomSheet: BottomSheetDialogFragment(), CheckupListBottomShee
     }
 
     override fun saveNewObjectOk() {
-        Timber.d("Сохранили объект обследования")
+        Timber.d("Сохранили_объект_обследования")
     }
 
     override fun onClick(v: View?) {
         if (v != null) {
             when (v.id) {
                 R.id.btnSaveNewObject -> {
-                    val stNameObject=rootView.findViewById<TextInputEditText>(R.id.tietNameObject).text
-                    if (::clbsPresenter.isInitialized && !stNameObject.isNullOrEmpty()) {
-                        clbsPresenter.saveObject(checkupGuideCurrent, stNameObject.toString())
+                    val stNameObject =
+                        rootView.findViewById<TextInputEditText>(R.id.tietNameObject).text
 
-                        val params =
-                            (rootView.parent as View).layoutParams as CoordinatorLayout.LayoutParams
-                        val behavior = params.behavior
-                        if (behavior!=null && behavior is BottomSheetBehavior) {
-                            behavior.state=BottomSheetBehavior.STATE_HIDDEN
+                    if (checkupGuideCurrent!=null && !stNameObject.isNullOrEmpty()) {
+                        if (::clbsPresenter.isInitialized) {
+                            (activity as MainActivity).currentOrder.id
+
+                            clbsPresenter.saveObject(
+                                checkupGuideCurrent!!,
+                                stNameObject.toString(),
+                                (activity as MainActivity).currentOrder.id
+                            )
+
+                            val params =
+                                (rootView.parent as View).layoutParams as CoordinatorLayout.LayoutParams
+                            val behavior = params.behavior
+                            if (behavior != null && behavior is BottomSheetBehavior) {
+                                behavior.state = BottomSheetBehavior.STATE_HIDDEN
+                            }
+
                         }
-
                     } else {
                         toaster.showToast(R.string.btmSheetSaveInvalid)
                     }
 
+
                 }
             }
         }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        Timber.d("onCreateView")
+
+        AndroidSupportInjection.inject(this)
+
+        val view=LayoutInflater.from(context).inflate(R.layout.checkuplist_bottom_sheet, null)
+        rootView=view
+        // Заполним комбобокс Тип Объекта
+        mbSpinner=view.findViewById(R.id.spinner_kindobject)
+
+        dialog?.setOnShowListener {
+            Handler().postDelayed({
+                Timber.d("xxxxxxxxxxxx")
+                val d = dialog as BottomSheetDialog
+                val bottomSheet = d.findViewById<FrameLayout>(R.id.design_bottom_sheet)
+                val bottomSheetBehavior =BottomSheetBehavior.from(bottomSheet!!)
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            }, 0)
+        }
+
+        /*val bsDialog = BottomSheetDialog(requireContext(), R.style.DialogStyle)
+        bsDialog.setOnShowListener { dialog ->
+            Handler().postDelayed({
+                Timber.d("xxxxxxxxxxxx")
+                val d = dialog as BottomSheetDialog
+                val bottomSheet = d.findViewById<FrameLayout>(R.id.design_bottom_sheet)
+                val bottomSheetBehavior =BottomSheetBehavior.from(bottomSheet!!)
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            }, 0)
+        }*/
+
+        //bsDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+
+
+        val btnSave = view.findViewById(R.id.btnSaveNewObject) as MaterialButton
+        btnSave.setOnClickListener(this)
+
+        clbsPresenter.attachView(this)
+        clbsPresenter.getKindObject()
+
+
+        return rootView
+
     }
 
     override fun onDestroy() {

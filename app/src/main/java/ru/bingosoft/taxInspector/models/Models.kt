@@ -50,7 +50,11 @@ class Models {
 
     class CheckupGuideList(
         @SerializedName("data") var guides: List<CheckupGuide> = listOf()
-    )
+    ) {
+        override fun toString(): String {
+            return "CheckupGuideList(guides=$guides)"
+        }
+    }
 
     class ControlList(
         @Expose @SerializedName("controls") var list: MutableList<TemplateControl> = mutableListOf()
@@ -78,7 +82,11 @@ class Models {
         //var controlList: ControlList?=null
         var groupControlList: CommonControlList?=null,
         var parent: TemplateControl?=null
-    )
+    ) {
+        override fun toString(): String {
+            return "TemplateControl(id=$id, guid='$guid', type='$type', value=${value.contentToString()}, idvalue=${idvalue.contentToString()}, subvalue=${subvalue.contentToString()}, question='$question', hint='$hint', resvalue='$resvalue', resmainvalue='$resmainvalue', subcheckup=$subcheckup, multiplicity=$multiplicity, checked=$checked, groupControlList=$groupControlList, parent=$parent)"
+        }
+    }
 
     class Subvalue(
         @Expose @SerializedName("idlink") var id: Int = 0,

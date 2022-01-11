@@ -21,7 +21,7 @@ class TextWatcherHelper(private val control: Models.TemplateControl, private val
         uiCreator.changeChecked(v,control)
 
         val parent=control.parent
-        if (parent!=null) {
+        if (parent!=null && parent.checked) {
             Timber.d("parent=${parent.id}")
             val parentView=uiCreator.parentFragment.root.findViewById<View>(parent.id)
             parent.checked=false

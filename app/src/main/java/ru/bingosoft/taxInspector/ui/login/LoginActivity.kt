@@ -34,9 +34,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         val toolbar=logintoolbar
         setSupportActionBar(toolbar)
 
-        stUrl = edUrl.text.toString()
-        stLogin = edLogin.text.toString()
-        stPassword = edPassword.text.toString()
+
     }
 
     override fun onClick(v: View?) {
@@ -44,6 +42,10 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             when (v.id) {
                 R.id.btnGo -> {
                     if (isNetworkConnected()) {
+                        stUrl = edUrl.text.toString()
+                        stLogin = edLogin.text.toString()
+                        stPassword = edPassword.text.toString()
+
                         // Авторизация
                         val intent = Intent()
                         intent.putExtra("login", stLogin)
